@@ -1,8 +1,7 @@
 import {createElement} from '../render.js';
 
-function createTripPointFormTemplate() {
-  return (
-    `<li class="trip-events__item">
+const createTripPointFormTemplate = () =>
+  (`<li class="trip-events__item">
     <form class="event event--edit" action="#" method="post">
       <header class="event__header">
         <div class="event__type-wrapper">
@@ -165,7 +164,6 @@ function createTripPointFormTemplate() {
     </form>
     </li>`
   );
-}
 
 export default class NewTripPointForm {
   getTemplate() {

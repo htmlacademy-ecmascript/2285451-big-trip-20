@@ -1,5 +1,5 @@
-import NewTripFilter from './view/filter-trip.js';
-import NewTrip from './view/real-trip.js';
+import NewTripFilter from './view/new-trip-filter.js';
+import NewTrip from './view/new-trip.js';
 import BoardPresenter from './presenter/board-presenter.js';
 
 import {render} from './render.js';
@@ -11,7 +11,7 @@ const filterContainer = tripHeaderContainer.querySelector('.trip-controls__filte
 
 const tripListContainer = mainContainer.querySelector('.trip-events');
 
-render(new NewTripFilter(), filterContainer,RenderPosition.BEFOREEND);
+render(new NewTripFilter(), filterContainer, RenderPosition.BEFOREEND);
 render(new NewTrip(), tripHeaderContainer, RenderPosition.AFTERBEGIN);
 
 const boardPresenter = new BoardPresenter({boardContainer:tripListContainer});
