@@ -10,17 +10,40 @@ import {RenderPosition} from '../render.js';
 export default class BoardPresenter {
   tripList = new NewTripPoinstList();
 
-  constructor({boardContainer}) {
+  constructor({boardContainer, tasksModel, sityModel}) {
     this.boardContainer = boardContainer;
+    this.tasksModel = tasksModel;
+    this.sityModel = sityModel;
+    
   }
 
   init() {
+    this.boardTasks = [...this.tasksModel.getTasks()];
+    this.boardSities = [...this.sityModel.getTasks()];
+    console.log(this.boardSities);
+
+
     render(this.tripList, this.boardContainer);
     render(new NewTripSort(), this.tripList.getElement(), RenderPosition.BEFOREBEGIN);
 
-    for (let i = 0; i < NUBER_OF_TRIPS; i++) {
-      render(new NewTripPoint(), this.tripList.getElement());
+    for (let i = 0; i < this.boardTasks.length; i++) {
+     render(new NewTripPoint({task: this.boardTasks[i]}), this.tripList.getElement());
+     
+       for (let k = 0; k < this.boardSities.length; k++){
+        if(this.boardTasks[i].id === this.boardSities[k].id){
+      
+          render(new NewTripPoint({task: this.boardTasks[i], set: this.boardSities[k]}), this.tripList.getElement());
+       
+      }
+ 
+       }
     }
+
+    // for (let i = 0; i < this.boardSities.length; i++) {
+    //   render(new NewTripPoint({sity:this.boardSities[i]}), this.tripList.getElement());   
+    // }
+
+     
     render(new NewTripPoinForm(), this.tripList.getElement(), RenderPosition.AFTERBEGIN);
   }
 }

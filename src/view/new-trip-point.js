@@ -1,7 +1,15 @@
 import {createElement} from '../render.js';
 
-const createTripPointTemplate = () =>
-  (`<li class="trip-events__item">
+function createTripPointTemplate (task,set) {
+
+  // const  {basePrice}  =  task;
+  const  {sity} = set;
+  console.log(sity);
+
+  // const {sity} = set;
+
+
+  return(`<li class="trip-events__item">
       <div class="event">
         <time class="event__date" datetime="2019-03-18">MAR 18</time>
         <div class="event__type">
@@ -39,10 +47,16 @@ const createTripPointTemplate = () =>
       </div>
     </li>`
   );
-
+}
 export default class NewTripPoint {
+
+  constructor ({task,set}){
+    this.task = task;
+    this.set = set;
+  }
+
   getTemplate() {
-    return createTripPointTemplate();
+    return createTripPointTemplate (this.task, this.set);
   }
 
   getElement() {
