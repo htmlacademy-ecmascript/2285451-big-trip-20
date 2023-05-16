@@ -1,12 +1,10 @@
-import {getRandomTask} from '../mock/trip-points';
+import {getAllPoints} from '../mock/trip-points';
 
-const TASK_COUNT = 2;
+export default class PointsModel {
 
-export default class TasksModel {
-  tasks = Array.from({length: TASK_COUNT}, getRandomTask);
+  points = getAllPoints();
 
-  getTasks() {
-    return this.tasks;
+  getPoints() {
+    return this.points;
   }
 }
-

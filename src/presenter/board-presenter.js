@@ -1,4 +1,3 @@
-import {NUBER_OF_TRIPS} from '../const.js';
 import NewTripPoinstList from '../view/new-trip-points-list.js';
 import NewTripSort from '../view/new-trip-sort.js';
 import NewTripPoint from '../view/new-trip-point.js';
@@ -10,40 +9,26 @@ import {RenderPosition} from '../render.js';
 export default class BoardPresenter {
   tripList = new NewTripPoinstList();
 
-  constructor({boardContainer, tasksModel, sityModel}) {
+  constructor({boardContainer, pointsModel, destinationsModel, offersModel}) {
     this.boardContainer = boardContainer;
-    this.tasksModel = tasksModel;
-    this.sityModel = sityModel;
-    
+    this.pointsModel = pointsModel;
+    this.destinationsModel = destinationsModel;
+    this.offersModel = offersModel;
   }
 
   init() {
-    this.boardTasks = [...this.tasksModel.getTasks()];
-    this.boardSities = [...this.sityModel.getTasks()];
-    console.log(this.boardSities);
-
+    this.boardPoints = [...this.pointsModel.getPoints()];
+    this.boardCities = [...this.destinationsModel.getDestinations()];
+    this.boardOffers = [...this.offersModel.getOffers()];
 
     render(this.tripList, this.boardContainer);
     render(new NewTripSort(), this.tripList.getElement(), RenderPosition.BEFOREBEGIN);
 
-    for (let i = 0; i < this.boardTasks.length; i++) {
-     render(new NewTripPoint({task: this.boardTasks[i]}), this.tripList.getElement());
-     
-       for (let k = 0; k < this.boardSities.length; k++){
-        if(this.boardTasks[i].id === this.boardSities[k].id){
-      
-          render(new NewTripPoint({task: this.boardTasks[i], set: this.boardSities[k]}), this.tripList.getElement());
-       
-      }
- 
-       }
+    for (let i = 0; i < this.boardPoints.length; i++) {
+      render(new NewTripPoint({point: this.boardPoints[i], city: this.boardCities.find((item) => item.id === this.boardPoints[i].destination),
+        offer: this.boardOffers.find((item) => item.type === this.boardPoints[i].type) }), this.tripList.getElement());
     }
-
-    // for (let i = 0; i < this.boardSities.length; i++) {
-    //   render(new NewTripPoint({sity:this.boardSities[i]}), this.tripList.getElement());   
-    // }
-
-     
-    render(new NewTripPoinForm(), this.tripList.getElement(), RenderPosition.AFTERBEGIN);
+    render(new NewTripPoinForm({point: this.boardPoints[1], city: this.boardCities.find((item) => item.id === this.boardPoints[1].destination),
+      offer: this.boardOffers.find((item) => item.type === this.boardPoints[1].type)}), this.tripList.getElement(), RenderPosition.AFTERBEGIN);
   }
 }
