@@ -2,13 +2,13 @@ import {createElement} from '../render.js';
 import {getInputDateFormat} from '../utils.js';
 
 function createTripPointFormTemplate (city, point, offer) {
-  const {dateFrom, dateTo, type, vehicleIcon } = point;
+  const {dateFrom, dateTo, type } = point;
   const {name,description,pictures} = city;
   const {offers} = offer;
 
-  const destinationPhoto = pictures.map((item) => `<img class="event__photo" src= ${item.src} alt="Event photo">`);
+  const destinationPhotos = pictures.map((item) => `<img class="event__photo" src= ${item.src} alt="Event photo">`).join('');
 
-  const offerButton = offers.map((item) => {
+  const offerButtons = offers.map((item) => {
     const checkedOfferButton = point.offers.includes(item.id) ? 'checked' : '';
 
     return (` <div class="event__offer-selector">
@@ -20,7 +20,7 @@ function createTripPointFormTemplate (city, point, offer) {
          </label>
         </div>`
     );
-  });
+  }).join('');
 
   const inputDateFrom = getInputDateFormat(dateFrom);
   const inputDateTo = getInputDateFormat(dateTo);
@@ -31,7 +31,8 @@ function createTripPointFormTemplate (city, point, offer) {
         <div class="event__type-wrapper">
           <label class="event__type  event__type-btn" for="event-type-toggle-1">
             <span class="visually-hidden">Choose event type</span>
-            <img class="event__type-icon" width="17" height="17" src=${vehicleIcon} alt="Event type icon">
+            <img class="event__type-icon" width="17" height="17"  src="img/icons/${type.toLowerCase()}.png" alt="Event type icon">
+
           </label>
           <input class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox">
 
@@ -124,13 +125,9 @@ function createTripPointFormTemplate (city, point, offer) {
 
           <div class="event__available-offers">
 
-          ${offerButton}
-
-          
+          ${offerButtons}
 
           </div>
-
-          
         </section>
 
         <section class="event__section  event__section--destination">
@@ -139,7 +136,7 @@ function createTripPointFormTemplate (city, point, offer) {
 
           <div class="event__photos-container">
             <div class="event__photos-tape">
-               ${destinationPhoto} 
+               ${destinationPhotos} 
             </div>
           </div>
         </section>

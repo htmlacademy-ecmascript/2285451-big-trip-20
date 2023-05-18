@@ -12,7 +12,6 @@ const mockPoints = [
     offers: [
     ],
     type: 'Train',
-    vehicleIcon: '../img/icons/train.png',
   },
 
   {
@@ -27,7 +26,6 @@ const mockPoints = [
 
     ],
     type: 'Ship',
-    vehicleIcon:'../img/icons/ship.png',
   },
   {
     id: '1',
@@ -39,7 +37,6 @@ const mockPoints = [
     offers: [
     ],
     type: 'Taxi',
-    vehicleIcon: '../img/icons/taxi.png',
   },
 
 ];

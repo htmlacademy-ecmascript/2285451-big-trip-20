@@ -17,33 +17,26 @@ const HOUR_IN_DAY = 24;
 const MILLSEC_IN_HOUR = MILLSEC_IN_SEC * SEC_IN_MIN * MIN_IN_HOUR;
 const MILLSEC_IN_DAY = MILLSEC_IN_HOUR * HOUR_IN_DAY;
 
-function getArray(items) {
-  return items;
-}
+const getArray = (items) => items;
 
-function getCorrectDateFormat (anyDate) {
-  return anyDate ? dayjs(anyDate).format(DATE_FORMAT) : '';
-}
+const getCorrectDateFormat = (anyDate) => anyDate ? dayjs(anyDate).format(DATE_FORMAT) : '';
 
-function getInputDateFormat (anyDate) {
-  return anyDate ? dayjs(anyDate).format(DATE_INPUT_FORMAT) : '';
-}
+const getInputDateFormat = (anyDate) => anyDate ? dayjs(anyDate).format(DATE_INPUT_FORMAT) : '';
 
-function getCorrectDateFromToFormat (anyDate) {
-  return anyDate ? dayjs(anyDate).format(DATE_FROM_TO_FORMAT) : '';
-}
+const getCorrectDateFromToFormat = (anyDate) => anyDate ? dayjs(anyDate).format(DATE_FROM_TO_FORMAT) : '';
 
 function getDurationInPoint (dateFrom, dateTo) {
   const deltaTime = dayjs(dateTo).diff(dayjs(dateFrom));
 
   let durationInPoint = 0;
 
-  if(deltaTime >= MILLSEC_IN_DAY){
-    durationInPoint = dayjs.duration(deltaTime).format('DD[D] HH[H] mm[M]');
-  } else if(deltaTime >= MILLSEC_IN_HOUR) {
-    durationInPoint = dayjs.duration(deltaTime).format('HH[H] mm[M]');
-  } else if(deltaTime < MILLSEC_IN_HOUR) {
-    durationInPoint = dayjs.duration(deltaTime).format(' mm[M]');
+  switch(true){
+    case (deltaTime >= MILLSEC_IN_DAY) : durationInPoint = dayjs.duration(deltaTime).format('DD[D] HH[H] mm[M]');
+      break;
+    case (deltaTime >= MILLSEC_IN_HOUR) : durationInPoint = dayjs.duration(deltaTime).format('HH[H] mm[M]');
+      break;
+    case (deltaTime < MILLSEC_IN_HOUR) : durationInPoint = dayjs.duration(deltaTime).format(' mm[M]');
+      break;
   }
   return durationInPoint;
 }
