@@ -1,5 +1,8 @@
 import {createElement} from '../render.js';
+
 import {getInputDateFormat} from '../utils.js';
+
+import AbstractView from '../framework/view/abstract-view.js';
 
 function createTripPointFormTemplate (city, point, offer) {
   const {dateFrom, dateTo, type } = point;
@@ -145,17 +148,31 @@ function createTripPointFormTemplate (city, point, offer) {
     </li>`
   );
 }
-export default class NewTripPointForm {
+export default class NewTripPointForm extends AbstractView {
+  #city = null;
+  #point = null;
+  #offer = null;
 
-  constructor({city, point, offer}){
-    this.city = city;
-    this.point = point;
-    this.offer = offer;
+  #handleFormSubmit = null;
+
+  constructor({city, point, offer, onFormSubmit}){
+    super();
+    this.#city = city;
+    this.#point = point;
+    this.#offer = offer;
+    this.#handleFormSubmit = onFormSubmit;
+
+    this.element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
   }
 
-  getTemplate() {
-    return createTripPointFormTemplate(this.city, this.point, this.offer);
+  get template() {
+    return createTripPointFormTemplate(this.#city, this.#point, this.#offer);
   }
+
+  #formSubmitHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleFormSubmit();
+  };
 
   getElement() {
     if (!this.element) {

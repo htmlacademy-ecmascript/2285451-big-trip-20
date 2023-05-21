@@ -2,9 +2,9 @@ import {getAllPoints} from '../mock/trip-points';
 
 export default class PointsModel {
 
-  points = getAllPoints();
+  #points = getAllPoints();
 
-  getPoints() {
-    return this.points;
+  get points() {
+    return this.#points;
   }
 }
