@@ -120,7 +120,10 @@ function createTripPointFormTemplate (city, point, offer) {
         </div>
 
         <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
-        <button class="event__reset-btn" type="reset">Cancel</button>
+        <button class="event__reset-btn" type="reset">Delete</button>
+        <button class="event__rollup-btn" type="button">
+          <span class="visually-hidden">Open event</span>
+        </button>
       </header>
       <section class="event__details">
         <section class="event__section  event__section--offers">
@@ -154,15 +157,18 @@ export default class NewTripPointForm extends AbstractView {
   #offer = null;
 
   #handleFormSubmit = null;
+  #handleEditClick = null;
 
-  constructor({city, point, offer, onFormSubmit}){
+  constructor({city, point, offer, onFormSubmit, onEditClick}){
     super();
     this.#city = city;
     this.#point = point;
     this.#offer = offer;
     this.#handleFormSubmit = onFormSubmit;
+    this.#handleEditClick = onEditClick;
 
     this.element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editClickHandler);
   }
 
   get template() {
@@ -172,6 +178,11 @@ export default class NewTripPointForm extends AbstractView {
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
     this.#handleFormSubmit();
+  };
+
+  #editClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleEditClick();
   };
 
   getElement() {

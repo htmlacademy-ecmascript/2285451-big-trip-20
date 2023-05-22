@@ -40,7 +40,7 @@ const mockDestinations = [
         description: 'LA a perfect place to stay with a family'
       },
       {
-        src: 'https: //20.objects.pages.academy/static/destinations/18.jpg',
+        src: 'https://20.objects.pages.academy/static/destinations/19.jpg',
         description: 'LA with crowded streets',
       }
     ]

@@ -62,7 +62,8 @@ export default class BoardPresenter {
     const pointFormComponent = new NewTripPoinForm({point, city, offer, onFormSubmit: () => {
       replaceFormToPoint();
       document.removeEventListener('keydown', escKeyDownHandler);
-    }
+    },
+    onEditClick: () => replaceFormToPoint(),
     });
 
     function replacePointToForm() {
