@@ -1,5 +1,8 @@
 import {createElement} from '../render.js';
+
 import {getInputDateFormat} from '../utils.js';
+
+import AbstractView from '../framework/view/abstract-view.js';
 
 function createTripPointFormTemplate (city, point, offer) {
   const {dateFrom, dateTo, type } = point;
@@ -117,7 +120,10 @@ function createTripPointFormTemplate (city, point, offer) {
         </div>
 
         <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
-        <button class="event__reset-btn" type="reset">Cancel</button>
+        <button class="event__reset-btn" type="reset">Delete</button>
+        <button class="event__rollup-btn" type="button">
+          <span class="visually-hidden">Open event</span>
+        </button>
       </header>
       <section class="event__details">
         <section class="event__section  event__section--offers">
@@ -145,17 +151,39 @@ function createTripPointFormTemplate (city, point, offer) {
     </li>`
   );
 }
-export default class NewTripPointForm {
+export default class NewTripPointForm extends AbstractView {
+  #city = null;
+  #point = null;
+  #offer = null;
 
-  constructor({city, point, offer}){
-    this.city = city;
-    this.point = point;
-    this.offer = offer;
+  #handleFormSubmit = null;
+  #handleEditClick = null;
+
+  constructor({city, point, offer, onFormSubmit, onEditClick}){
+    super();
+    this.#city = city;
+    this.#point = point;
+    this.#offer = offer;
+    this.#handleFormSubmit = onFormSubmit;
+    this.#handleEditClick = onEditClick;
+
+    this.element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editClickHandler);
   }
 
-  getTemplate() {
-    return createTripPointFormTemplate(this.city, this.point, this.offer);
+  get template() {
+    return createTripPointFormTemplate(this.#city, this.#point, this.#offer);
   }
+
+  #formSubmitHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleFormSubmit();
+  };
+
+  #editClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleEditClick();
+  };
 
   getElement() {
     if (!this.element) {

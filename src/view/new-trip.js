@@ -1,5 +1,7 @@
 import {createElement} from '../render.js';
 
+import AbstractView from '../framework/view/abstract-view.js';
+
 const createRealTripTemplate = () =>
   (`<section class="trip-main__trip-info  trip-info">
       <div class="trip-info__main">
@@ -14,8 +16,8 @@ const createRealTripTemplate = () =>
     </section>`
   );
 
-export default class NewTrip {
-  getTemplate() {
+export default class NewTrip extends AbstractView {
+  get template() {
     return createRealTripTemplate();
   }
 

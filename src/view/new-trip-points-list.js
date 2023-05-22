@@ -1,9 +1,12 @@
 import {createElement} from '../render.js';
 
+import AbstractView from '../framework/view/abstract-view.js';
+
 const createTripPointListTemplate = () => ('<ul class="trip-events__list"></ul>');
 
-export default class NewTripPoinstList {
-  getTemplate() {
+export default class NewTripPoinstList extends AbstractView {
+
+  get template() {
     return createTripPointListTemplate();
   }
 
