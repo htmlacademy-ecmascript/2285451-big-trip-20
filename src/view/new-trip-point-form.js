@@ -4,10 +4,10 @@ import {getInputDateFormat} from '../utils.js';
 
 import AbstractView from '../framework/view/abstract-view.js';
 
-function createTripPointFormTemplate (city, point, offer) {
+function createTripPointFormTemplate (cities, point, alloffers) {
   const {dateFrom, dateTo, type } = point;
-  const {name,description,pictures} = city;
-  const {offers} = offer;
+  const {name,description,pictures} = cities;
+  const {offers} = alloffers;
 
   const destinationPhotos = pictures.map((item) => `<img class="event__photo" src= ${item.src} alt="Event photo">`).join('');
 
@@ -152,37 +152,37 @@ function createTripPointFormTemplate (city, point, offer) {
   );
 }
 export default class NewTripPointForm extends AbstractView {
-  #city = null;
+  #cities = null;
   #point = null;
-  #offer = null;
+  #alloffers = null;
 
-  #handleFormSubmit = null;
-  #handleEditClick = null;
+  #submitFormHandler = null;
+  #formClickHandler = null;
 
-  constructor({city, point, offer, onFormSubmit, onEditClick}){
+  constructor ({point,cities, alloffers, onFormSubmit, onEditClick}){
     super();
-    this.#city = city;
     this.#point = point;
-    this.#offer = offer;
-    this.#handleFormSubmit = onFormSubmit;
-    this.#handleEditClick = onEditClick;
+    this.#cities = cities.find((item) => item.id === this.#point.destination);
+    this.#alloffers = alloffers.find((item) => item.type === this.#point.type);
+    this.#submitFormHandler = onFormSubmit;
+    this.#formClickHandler = onEditClick;
 
     this.element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editClickHandler);
   }
 
   get template() {
-    return createTripPointFormTemplate(this.#city, this.#point, this.#offer);
+    return createTripPointFormTemplate(this.#cities, this.#point, this.#alloffers);
   }
 
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
-    this.#handleFormSubmit();
+    this.#submitFormHandler();
   };
 
   #editClickHandler = (evt) => {
     evt.preventDefault();
-    this.#handleEditClick();
+    this.#formClickHandler();
   };
 
   getElement() {
@@ -193,7 +193,7 @@ export default class NewTripPointForm extends AbstractView {
     return this.element;
   }
 
-  removeElement() {
-    this.element = null;
-  }
+  // removeElement() {
+  //   this.element = null;
+  // }
 }
