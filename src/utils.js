@@ -41,4 +41,9 @@ function getDurationInPoint (dateFrom, dateTo) {
   return durationInPoint;
 }
 
-export {getArray, getCorrectDateFormat, getDurationInPoint, getCorrectDateFromToFormat,getInputDateFormat };
+function updateItem(items, update) {
+  return items.map((item) => item.id === update.id ? update : item);
+}
+
+
+export {getArray, getCorrectDateFormat, getDurationInPoint, getCorrectDateFromToFormat,getInputDateFormat,updateItem };

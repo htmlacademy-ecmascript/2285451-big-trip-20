@@ -4,10 +4,10 @@ import AbstractView from '../framework/view/abstract-view.js';
 
 import {getCorrectDateFormat, getDurationInPoint, getCorrectDateFromToFormat} from '../utils.js';
 
-function createTripPointTemplate (point, city, offer) {
+function createTripPointTemplate (point, cities, alloffers) {
   const {basePrice ,dateFrom, dateTo, type, isFavorite} = point;
-  const {name} = city;
-  const {offers} = offer;
+  const {name} = cities;
+  const {offers} = alloffers;
 
   const currentPointOffers = offers.map((item) =>
     ` <li class="event__offer">
@@ -61,28 +61,38 @@ function createTripPointTemplate (point, city, offer) {
 
 export default class NewTripPoint extends AbstractView {
   #point = null;
-  #city = null;
-  #offer = null;
+  #cities = null;
+  #alloffers = null;
 
-  #handleEditClick = null;
+  #formClickHandler = null;
+  #favoriteButtonClickHandler = null;
 
-  constructor ({point, city, offer, onEditClick}){
+  constructor ({point, cities, alloffers, onEditClick, onFavoriteClick}){
     super();
     this.#point = point;
-    this.#city = city;
-    this.#offer = offer;
-    this.#handleEditClick = onEditClick;
+    this.#cities = cities.find((item) => item.id === this.#point.destination);
+    this.#alloffers = alloffers.find((item) => item.type === this.#point.type);
+    this.#formClickHandler = onEditClick;
+    this.#favoriteButtonClickHandler = onFavoriteClick;
 
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editClickHandler);
+    this.element.querySelector('.event__favorite-btn').addEventListener('click', this.#favoriteClickHandler);
+
   }
 
   get template() {
-    return createTripPointTemplate (this.#point, this.#city, this.#offer);
+    return createTripPointTemplate (this.#point, this.#cities, this.#alloffers);
   }
+
+  #favoriteClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#favoriteButtonClickHandler();
+  };
+
 
   #editClickHandler = (evt) => {
     evt.preventDefault();
-    this.#handleEditClick();
+    this.#formClickHandler();
   };
 
   getElement() {
@@ -93,7 +103,7 @@ export default class NewTripPoint extends AbstractView {
     return this.element;
   }
 
-  removeElement() {
-    this.element = null;
-  }
+  // removeElement() {
+  //   this.element = null;
+  // }
 }
